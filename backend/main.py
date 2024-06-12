@@ -31,6 +31,11 @@ class User(BaseModel):
     password: str
 
 
+@app.get("/")
+async def hello_backend():
+    return "hello backend"
+
+
 @app.post("/register")
 async def register(user: User, request: Request):
     try:
