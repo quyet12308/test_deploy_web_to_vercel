@@ -2,12 +2,12 @@ import sqlite3
 
 
 def init_db():
-    conn = sqlite3.connect("users.db")
+    conn = sqlite3.connect("tmp/users.db")
     cursor = conn.cursor()
     cursor.execute(
         """
     CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY,
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
         username TEXT NOT NULL,
         password TEXT NOT NULL
     )
@@ -17,5 +17,4 @@ def init_db():
     conn.close()
 
 
-if __name__ == "__main__":
-    init_db()
+init_db()

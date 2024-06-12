@@ -33,7 +33,7 @@ async def hello_backend():
 @app.post("/register")
 async def register(user: User):
     try:
-        conn = sqlite3.connect("users.db")
+        conn = sqlite3.connect("/tmp/users.db")  # Đường dẫn cơ sở dữ liệu trong /tmp
         cursor = conn.cursor()
         cursor.execute(
             "INSERT INTO users (username, password) VALUES (?, ?)",
@@ -48,7 +48,7 @@ async def register(user: User):
 
 @app.post("/login")
 async def login(user: User):
-    conn = sqlite3.connect("users.db")
+    conn = sqlite3.connect("/tmp/users.db")  # Đường dẫn cơ sở dữ liệu trong /tmp
     cursor = conn.cursor()
     cursor.execute(
         "SELECT * FROM users WHERE username = ? AND password = ?",
