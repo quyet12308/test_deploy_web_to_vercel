@@ -16,7 +16,8 @@ origins = [
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,  # Chỉ định các nguồn gốc được phép
+    # allow_origins=origins,  # Chỉ định các nguồn gốc được phép
+    allow_origins=["*"],  # Chỉ định các nguồn gốc được phép
     allow_credentials=True,
     allow_methods=["*"],  # Cho phép tất cả các phương thức HTTP (POST, GET, v.v.)
     allow_headers=["*"],  # Cho phép tất cả các headers
