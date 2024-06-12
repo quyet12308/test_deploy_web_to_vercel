@@ -13,8 +13,13 @@ async function register() {
         body: JSON.stringify({ username, password }),
     });
 
-    const result = await response.json();
-    alert(result.message);
+    if (response.ok) {
+        const result = await response.json();
+        alert(result.message);
+    } else {
+        const error = await response.json();
+        alert(`Error: ${error.detail}`);
+    }
 }
 
 async function login() {
@@ -33,6 +38,7 @@ async function login() {
         const result = await response.json();
         alert(result.message);
     } else {
-        alert('Invalid credentials');
+        const error = await response.json();
+        alert(`Error: ${error.detail}`);
     }
 }

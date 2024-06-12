@@ -1,20 +1,17 @@
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import sqlite3
 import uvicorn
-
-from fastapi.middleware.cors import (
-    CORSMiddleware,
-)
 
 app = FastAPI()
 
 # Cấu hình CORS
 origins = [
-    "http://localhost",  # Nguồn gốc của bạn frontend local
-    "http://localhost:8040",  # Nguồn gốc của bạn backend local
-    "https://test-deploy-web-to-vercel.vercel.app/",  # URL của frontend đã deploy trên Vercel
-    "http://127.0.0.1:5500",
+    "http://localhost",  # Local frontend
+    "http://localhost:8040",  # Local backend
+    "https://test-deploy-web-to-vercel.vercel.app",  # Frontend đã deploy trên Vercel
+    "http://127.0.0.1:5500",  # Local frontend
 ]
 
 app.add_middleware(
@@ -33,18 +30,11 @@ class User(BaseModel):
 
 @app.get("/")
 async def hello_backend():
-    return "hello backend"
+    return {"message": "hello backend"}
 
 
 @app.post("/register")
-async def register(user: User, request: Request):
-    try:
-        data = await request.json()
-        print(f"Received register data: {data}")  # Log dữ liệu nhận được để kiểm tra
-    except Exception as e:
-        print(f"Error parsing JSON: {e}")
-        raise HTTPException(status_code=400, detail="Invalid JSON")
-
+async def register(user: User):
     conn = sqlite3.connect("users.db")
     cursor = conn.cursor()
     cursor.execute(
@@ -57,14 +47,7 @@ async def register(user: User, request: Request):
 
 
 @app.post("/login")
-async def login(user: User, request: Request):
-    try:
-        data = await request.json()
-        print(f"Received login data: {data}")  # Log dữ liệu nhận được để kiểm tra
-    except Exception as e:
-        print(f"Error parsing JSON: {e}")
-        raise HTTPException(status_code=400, detail="Invalid JSON")
-
+async def login(user: User):
     conn = sqlite3.connect("users.db")
     cursor = conn.cursor()
     cursor.execute(
