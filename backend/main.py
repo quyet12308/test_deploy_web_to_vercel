@@ -6,6 +6,7 @@ import uvicorn
 
 app = FastAPI()
 
+data_base_path = "tmp/users.db"
 # Cấu hình CORS
 origins = [
     "https://test-deploy-web-to-vercel.vercel.app",  # Frontend đã deploy trên Vercel
@@ -33,7 +34,7 @@ async def hello_backend():
 @app.post("/register")
 async def register(user: User):
     try:
-        conn = sqlite3.connect("/tmp/users.db")  # Đường dẫn cơ sở dữ liệu trong /tmp
+        conn = sqlite3.connect(data_base_path)
         cursor = conn.cursor()
         cursor.execute(
             "INSERT INTO users (username, password) VALUES (?, ?)",
@@ -48,7 +49,7 @@ async def register(user: User):
 
 @app.post("/login")
 async def login(user: User):
-    conn = sqlite3.connect("/tmp/users.db")  # Đường dẫn cơ sở dữ liệu trong /tmp
+    conn = sqlite3.connect(data_base_path)
     cursor = conn.cursor()
     cursor.execute(
         "SELECT * FROM users WHERE username = ? AND password = ?",
