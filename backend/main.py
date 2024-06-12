@@ -8,16 +8,12 @@ app = FastAPI()
 
 # Cấu hình CORS
 origins = [
-    "http://localhost",  # Local frontend
-    "http://localhost:8040",  # Local backend
     "https://test-deploy-web-to-vercel.vercel.app",  # Frontend đã deploy trên Vercel
-    "http://127.0.0.1:5500",  # Local frontend
 ]
 
 app.add_middleware(
     CORSMiddleware,
-    # allow_origins=origins,  # Chỉ định các nguồn gốc được phép
-    allow_origins=["*"],  # Chỉ định các nguồn gốc được phép
+    allow_origins=origins,  # Chỉ định các nguồn gốc được phép
     allow_credentials=True,
     allow_methods=["*"],  # Cho phép tất cả các phương thức HTTP (POST, GET, v.v.)
     allow_headers=["*"],  # Cho phép tất cả các headers
@@ -36,15 +32,18 @@ async def hello_backend():
 
 @app.post("/register")
 async def register(user: User):
-    conn = sqlite3.connect("users.db")
-    cursor = conn.cursor()
-    cursor.execute(
-        "INSERT INTO users (username, password) VALUES (?, ?)",
-        (user.username, user.password),
-    )
-    conn.commit()
-    conn.close()
-    return {"message": "User registered successfully"}
+    try:
+        conn = sqlite3.connect("users.db")
+        cursor = conn.cursor()
+        cursor.execute(
+            "INSERT INTO users (username, password) VALUES (?, ?)",
+            (user.username, user.password),
+        )
+        conn.commit()
+        conn.close()
+        return {"message": "User registered successfully"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @app.post("/login")
