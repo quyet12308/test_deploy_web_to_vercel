@@ -13,7 +13,7 @@ app = FastAPI()
 origins = [
     "http://localhost",  # Nguồn gốc của bạn frontend local
     "http://localhost:8040",  # Nguồn gốc của bạn backend local
-    "https://your-frontend-url.vercel.app",  # URL của frontend đã deploy trên Vercel
+    "https://test-deploy-web-to-vercel.vercel.app/",  # URL của frontend đã deploy trên Vercel
     "http://127.0.0.1:5500",
 ]
 
