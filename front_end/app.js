@@ -1,5 +1,6 @@
 // base_url_api = `http://127.0.0.1:8040`
-base_url_api = `https://test-deploy-web-to-vercel-backend.vercel.app`
+// base_url_api = `https://test-deploy-web-to-vercel-backend.vercel.app`
+base_url_api = `https://b6ee-2405-4802-1e3-b900-e515-b127-1f75-f437.ngrok-free.app/`
 
 async function register() {
     const username = document.getElementById('register-username').value;
